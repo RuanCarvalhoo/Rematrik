@@ -9,20 +9,21 @@ function AdminLogin() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // 2. Adiciona o useEffect para verificar o cookie na inicialização
+  // 2. Adiciona o useEffect para verificar o cookie na inicialização da página
   useEffect(() => {
     if (Cookies.get('adminAuth')) {
       console.log('Admin já logado. Redirecionando para o dashboard...');
-      navigate('/admin/dashboard');
+      navigate('/admin/dashboard'); // Redireciona imediatamente
     }
-  }, [navigate]);
+  }, [navigate]); // A dependência [navigate] garante que o hook não cause loops
 
   const handleLogin = (e) => {
     e.preventDefault();
     setError('');
 
     if (usuario === 'admin' && senha === 'admin123') {
-      Cookies.set('adminAuth', 'true', { expires: 1/24 });
+      const umaHora = 1 / 24;
+      Cookies.set('adminAuth', 'true', { expires: umaHora });
       navigate('/admin/dashboard');
     } else {
       setError('Usuário ou senha inválidos.');
@@ -30,7 +31,8 @@ function AdminLogin() {
   };
 
   return (
-    <Layout showBackButton={true}>
+    // Adicionamos a prop showBackButton para que o botão apareça aqui também
+    <Layout showBackButton>
       <form className="form-wrapper" onSubmit={handleLogin}>
         <h1>ACESSO<p>ADMINISTRATIVO</p></h1>
         <input type="text" placeholder="Usuário" value={usuario} onChange={(e) => setUsuario(e.target.value)} required />
