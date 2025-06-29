@@ -24,8 +24,6 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    
-    /* Adicionado para controlar a sobreposição */
     position: relative;
     z-index: 2; 
 }

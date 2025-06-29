@@ -40,7 +40,7 @@ const Step2 = ({ formData, submitForm, handleDisciplineChange }) => {
           </label>
         ))}
       </div>
-      <button className="submit-button" onClick={submitForm}>CONTINUAR</button>
+      <button className="submit-button" onClick={submitForm}>Enviar pedido de rematrícula</button>
     </div>
   );
 };

@@ -9,6 +9,7 @@ const allRequests = [
     { id: 4, matricula: 'APB10190', nome: 'ANA SILVA', curso: 'AGROPECUÁRIA', ano: '1 ANO', status: 'concluida', materias: ['BIOLOGIA I', 'QUÍMICA ORGÂNICA'] },
     { id: 5, matricula: 'APB20390', nome: 'PEDRO SOUZA', curso: 'AGROPECUÁRIA', ano: '2 ANO', status: 'concluida', materias: ['ZOOTECNIA'] },
     { id: 6, matricula: 'EWB30191', nome: 'JOSIANE LIMA', curso: 'INFORMATICA', ano: '1 ANO', status: 'pendente', materias: ['INGLÊS III'] },
+    
 ];
 
 function RequestDetailPage() {

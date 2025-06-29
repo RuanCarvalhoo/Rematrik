@@ -348,3 +348,23 @@
     min-height: 80px;
     resize: vertical;
 }
+
+/* ========================================================= */
+/* CONTROLE DE ROLAGEM PARA LISTAS LONGAS                    */
+/* ========================================================= */
+
+/* Aplica a rolagem para a lista de requisições do admin */
+.requests-list {
+    max-height: 400px; /* Altura máxima da lista antes de rolar */
+    overflow-y: auto;  /* Cria a barra de rolagem vertical */
+    width: 100%;       /* Garante que ocupe a largura do container */
+    padding-right: 5px; /* Adiciona um espaço para a barra de rolagem não cobrir o conteúdo */
+}
+
+/* Aplica a mesma lógica para a lista de disciplinas do aluno */
+.disciplinas-list {
+    max-height: 350px; /* Um valor um pouco diferente para se ajustar ao layout daquela tela */
+    overflow-y: auto;
+    width: 100%;
+    padding-right: 5px;
+}
