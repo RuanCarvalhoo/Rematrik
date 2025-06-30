@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'; // 1. Importe useEffect
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../../components/Layout';
 import Cookies from 'js-cookie';
+import axios from 'axios'; // 1. Importe o axios
 
 function AdminLogin() {
   const [usuario, setUsuario] = useState('');
@@ -9,29 +10,42 @@ function AdminLogin() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // 2. Adiciona o useEffect para verificar o cookie na inicialização da página
   useEffect(() => {
     if (Cookies.get('adminAuth')) {
-      console.log('Admin já logado. Redirecionando para o dashboard...');
-      navigate('/admin/dashboard'); // Redireciona imediatamente
+      navigate('/admin/dashboard');
     }
-  }, [navigate]); // A dependência [navigate] garante que o hook não cause loops
+  }, [navigate]);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => { // 2. Transforme a função em async
     e.preventDefault();
     setError('');
 
-    if (usuario === 'admin' && senha === 'admin123') {
+    try {
+      // 3. Crie o cabeçalho de autenticação Basic
+      const authToken = btoa(`${usuario}:${senha}`); // Codifica "usuario:senha" em Base64
+      
+      // 4. Faça a chamada para um endpoint protegido no backend
+      // Usaremos um endpoint que já existe para verificar se o login funciona.
+      await axios.get('http://localhost:8080/api/admin/requisicoes?status=pendente', {
+        headers: {
+          'Authorization': `Basic ${authToken}`
+        }
+      });
+
+      // 5. Se a chamada funcionar (não der erro), o login é válido
       const umaHora = 1 / 24;
-      Cookies.set('adminAuth', 'true', { expires: umaHora });
+      // Armazene o token de autenticação, não apenas 'true'
+      Cookies.set('adminAuth', authToken, { expires: umaHora }); 
       navigate('/admin/dashboard');
-    } else {
+
+    } catch (err) {
+      // 6. Se der erro (401 Unauthorized), as credenciais estão erradas
       setError('Usuário ou senha inválidos.');
+      console.error('Erro de autenticação:', err);
     }
   };
 
   return (
-    // Adicionamos a prop showBackButton para que o botão apareça aqui também
     <Layout showBackButton>
       <form className="form-wrapper" onSubmit={handleLogin}>
         <h1>ACESSO<p>ADMINISTRATIVO</p></h1>

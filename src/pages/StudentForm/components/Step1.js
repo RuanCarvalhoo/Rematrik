@@ -1,14 +1,14 @@
 import React from 'react';
 
-// Recebendo as novas props: 'courses' e 'yearOptions'
 const Step1 = ({
   formData,
   setFormData,
-  courses,
+  courses, // Recebe a lista de cursos
   yearOptions,
   handleSendCode,
   handleProceed,
   isSendingCode,
+  isVerifying, // Novo estado para o botão "Continuar"
   verificationCode,
   setVerificationCode,
   error,
@@ -26,21 +26,20 @@ const Step1 = ({
       />
       
       <div className="input-group">
-        {/* Caixa de seleção para os Cursos */}
+        {/* Agora usa o ID do curso */}
         <select
-          name="courseTag"
-          value={formData.courseTag}
-          onChange={(e) => setFormData({ ...formData, courseTag: e.target.value })}
+          name="courseId"
+          value={formData.courseId}
+          onChange={(e) => setFormData({ ...formData, courseId: e.target.value })}
           className="course-select"
         >
           <option value="">Curso</option>
-          {/* AQUI ESTÁ A CORREÇÃO: Verificamos se 'courses' existe antes de usá-lo */}
-          {courses && Object.keys(courses).map(tag => (
-            <option key={tag} value={tag}>{tag}</option>
+          {/* Mapeia os cursos vindos da API */}
+          {courses.map(course => (
+            <option key={course.id} value={course.id}>{course.codigoCurso}</option>
           ))}
         </select>
         
-        {/* Caixa para o número da matrícula */}
         <input
           type="text"
           placeholder="Nº da Matrícula"
@@ -49,13 +48,12 @@ const Step1 = ({
           onChange={(e) => setFormData({ ...formData, matricula: e.target.value })}
         />
 
-        {/* Caixa de seleção para Ano/Semestre (agora dinâmica) */}
         <select
           name="ano"
           value={formData.ano}
           onChange={(e) => setFormData({ ...formData, ano: e.target.value })}
           className="year-select"
-          disabled={!formData.courseTag} // Desabilitado até um curso ser escolhido
+          disabled={!formData.courseId}
         >
           <option value="">Período</option>
           {yearOptions.map(option => (
@@ -90,8 +88,8 @@ const Step1 = ({
         onChange={(e) => setVerificationCode(e.target.value)}
       />
       {error && <p className="error-message">{error}</p>}
-      <button className="submit-button" onClick={handleProceed}>
-        CONTINUAR
+      <button className="submit-button" onClick={handleProceed} disabled={isVerifying}>
+        {isVerifying ? 'VERIFICANDO...' : 'CONTINUAR'}
       </button>
     </div>
   );

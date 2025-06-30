@@ -1,6 +1,6 @@
 package com.rematrik.rematrik_backend.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference; // Certifique-se de que este import está presente
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -9,15 +9,16 @@ import java.util.List;
 public class Curso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonManagedReference
-    private Long id;
+    private Long id; // A anotação @JsonManagedReference foi REMOVIDA daqui
+
     private String nomeCurso;
     private String codigoCurso;
 
-    @OneToMany(mappedBy = "curso")
+    @OneToMany(mappedBy = "curso", fetch = FetchType.EAGER) // Adicionei EAGER para garantir que os componentes sejam carregados
+    @JsonManagedReference // A anotação foi MOVIDA para cá
     private List<ComponenteCurricular> componentes;
 
-    // Getters e Setters
+    // Getters e Setters (permanecem os mesmos)
     public Long getId() {
         return id;
     }
