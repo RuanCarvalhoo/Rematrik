@@ -1,0 +1,370 @@
+/* ========================================================= */
+/* ESTILOS GERAIS DE FORMULÁRIO                              */
+/* ========================================================= */
+
+/* Container interno para o conteúdo dos formulários */
+.form-wrapper {
+    width: 100%;
+    max-width: 480px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    gap: 18px; /* Espaçamento padrão entre os elementos do formulário */
+}
+
+/* Estilo para todos os inputs de texto e selects */
+.form-wrapper input[type="text"],
+.form-wrapper input[type="email"],
+.form-wrapper input[type="password"],
+.form-wrapper select {
+    background-color: #262626;
+    border: 1px solid #7a7a7a;
+    border-radius: 8px;
+    height: 45px;
+    padding: 0 15px;
+    font-family: "poppins", sans-serif;
+    font-size: 14px;
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-wrapper select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2212%22%20height%3D%228%22%20viewBox%3D%220%200%2012%208%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M1.41%200.59L6%205.17L10.59%200.59L12%202L6%208L0%202L1.41%200.59Z%22%20fill%3D%22white%22/%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 12px;
+}
+
+/* Grupo para "Matrícula" e "Ano" */
+/* Grupo para "Curso", "Matrícula" e "Ano/Semestre" */
+.input-group {
+    display: flex;
+    gap: 10px; /* Reduzindo o espaçamento */
+    width: 100%;
+}
+
+.input-group .course-select {
+    width: 120px; /* Largura fixa para a tag do curso */
+    flex-shrink: 0;
+}
+
+.input-group input {
+    flex: 1; /* Faz o input de matrícula ocupar o espaço restante */
+}
+
+.input-group .year-select {
+    width: 150px; /* Largura fixa para o período */
+    flex-shrink: 0;
+}
+
+.input-group select {
+    width: 120px;
+    flex-shrink: 0; /* Impede o select de encolher */
+}
+
+/* Mensagem de erro */
+.error-message {
+    color: #ff6b6b;
+    font-size: 14px;
+    text-align: center;
+    margin: 5px 0;
+}
+
+/* ========================================================= */
+/* ESTILOS DE BOTÕES (COMPARTILHADOS)                        */
+/* ========================================================= */
+
+/* Regra base para botões de formulário e dashboard */
+.submit-button,
+.dashboard-button {
+    background-color: #2BAE2F;
+    height: 45px;
+    border-radius: 8px;
+    font-family: "poppins", sans-serif;
+    font-weight: 900;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.submit-button:hover,
+.dashboard-button:hover {
+    background-color: #157218;
+}
+
+/* Estilos específicos */
+.submit-button {
+    width: 220px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.dashboard-button {
+    width: 100%; /* Ocupa toda a largura do seu container */
+    font-size: 14px;
+    font-weight: 700;
+    padding: 15px 10px;
+}
+
+.submit-button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
+
+.dashboard-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    gap: 18px;
+    margin-top: 30px;
+}
+
+/* ========================================================= */
+/* ESTILOS PARA A LISTA DE DISCIPLINAS (ETAPA 2)             */
+/* ========================================================= */
+
+.year-subtitle {
+    font-family: "poppins", sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    color: white;
+    text-align: center;
+    margin-top: -10px;
+}
+
+.disciplinas-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.disciplina-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0f0f0;
+    color: #262626;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: "poppins", sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    position: relative;
+    text-align: left;
+}
+
+.disciplina-item input[type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+    width: 0;
+    height: 0;
+}
+
+.custom-checkbox {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-color: transparent;
+    border: 2px solid #2BAE2F;
+    border-radius: 50%;
+    transition: all 0.2s ease-in-out;
+    position: relative;
+    margin-left: 15px;
+    flex-shrink: 0;
+}
+
+.disciplina-item input:checked + .custom-checkbox {
+    background-color: #2BAE2F;
+}
+
+.disciplina-item input:checked + .custom-checkbox::after {
+    content: '';
+    position: absolute;
+    display: block;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
+
+/* ========================================================= */
+/* ESTILOS PARA LISTAS DE REQUISIÇÕES (ADMIN)                */
+/* ========================================================= */
+
+.search-bar {
+    background-color: #262626; /* Fundo escuro */
+    border: 1px solid #7a7a7a;   /* Borda cinza claro */
+    border-radius: 8px;          /* Bordas arredondadas */
+    height: 45px;                /* Altura consistente com outros inputs */
+    padding: 0 15px;             /* Espaçamento interno */
+    font-family: "poppins", sans-serif;
+    font-size: 14px;
+    color: white;                /* Cor do texto que o usuário digita */
+    width: 100%;                 /* Ocupa toda a largura do container */
+    box-sizing: border-box;
+    margin-bottom: 20px;         /* Espaçamento abaixo da barra */
+}
+
+/* Estilo para o texto do placeholder (o texto que aparece antes de digitar) */
+.search-bar::placeholder {
+    color: #a0a0a0; /* Um cinza mais claro para o placeholder */
+    font-style: italic;
+}
+
+.requests-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px; /* Espaço entre cada item da lista */
+}
+
+.request-item {
+    background-color: #f0f0f0;
+    color: #262626;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-family: "poppins", sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer; /* Indica que o item pode ser clicável no futuro */
+    transition: background-color 0.2s;
+}
+
+.request-item:hover {
+    background-color: #e0e0e0;
+}
+
+/* ========================================================= */
+/* ESTILOS PARA A TELA DE DETALHE DA REQUISIÇÃO              */
+/* ========================================================= */
+
+.detail-panel {
+    background-color: #2BAE2F; /* Fundo verde */
+    width: 100%;
+    border-radius: 15px;
+    padding: 25px;
+    box-sizing: border-box;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.detail-field {
+    text-align: left;
+}
+
+.detail-field label {
+    font-family: "poppins", sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: white;
+}
+
+.detail-field .value {
+    background-color: #f0f0f0;
+    color: #262626;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-family: "poppins", sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 40px;
+}
+
+.detail-field .materias-list {
+    padding-top: 10px;
+}
+
+.detail-group {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+.detail-group .detail-field {
+    flex: 1;
+}
+
+.detail-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.action-button {
+    background-color: #f0f0f0;
+    color: #2BAE2F;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 25px;
+    font-family: "poppins", sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.action-button:hover {
+    opacity: 0.9;
+}
+
+/* ========================================================= */
+/* ESTILOS PARA O MODO DE EDIÇÃO DA REQUISIÇÃO               */
+/* ========================================================= */
+
+.edit-input, .edit-textarea {
+    background-color: #f0f0f0;
+    color: #262626;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-family: "poppins", sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid #1a5e1c; /* Borda verde escura para indicar edição */
+}
+
+.edit-textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+/* ========================================================= */
+/* CONTROLE DE ROLAGEM PARA LISTAS LONGAS                    */
+/* ========================================================= */
+
+/* Aplica a rolagem para a lista de requisições do admin */
+.requests-list {
+    max-height: 400px; /* Altura máxima da lista antes de rolar */
+    overflow-y: auto;  /* Cria a barra de rolagem vertical */
+    width: 100%;       /* Garante que ocupe a largura do container */
+    padding-right: 5px; /* Adiciona um espaço para a barra de rolagem não cobrir o conteúdo */
+}
+
+/* Aplica a mesma lógica para a lista de disciplinas do aluno */
+.disciplinas-list {
+    max-height: 350px; /* Um valor um pouco diferente para se ajustar ao layout daquela tela */
+    overflow-y: auto;
+    width: 100%;
+    padding-right: 5px;
+}

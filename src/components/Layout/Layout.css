@@ -1,0 +1,76 @@
+.logo {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+.paineis {
+    display: flex;
+    flex-direction: row;
+    padding-top: 60px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.content-panel {
+    background-color: #262626;
+    width: 650px;
+    min-height: 600px;
+    border-radius: 20px;
+    padding: 40px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 2; 
+}
+
+.content-panel h1 {
+    font-family: "poppins", sans-serif;
+    font-weight: 900;
+    font-size: 35px;
+    color: white;
+    margin: 0;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.content-panel h1 p {
+    margin: 0;
+}
+
+.image-panel {
+    /* Move a imagem para a esquerda para sobrepor */
+    margin-left: -60px; /* Ajuste este valor para o nível de sobreposição desejado */
+    
+    /* Adicionado para controlar a sobreposição */
+    position: relative;
+    z-index: 2; /* Garante que a imagem fique atrás do conteúdo do painel */
+}
+
+.image-panel img {
+    width: 900px;
+    height: 600px;
+}
+
+.back-button {
+    position: absolute;
+    top: 105px;
+    left: calc(50% - 325px - 40px);
+    
+    /* Garante que o botão de voltar fique acima de tudo */
+    z-index: 10;
+}
+
+/* Estilo para o subtítulo h2 dentro do painel de conteúdo */
+.content-panel h2 {
+    font-family: "poppins", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 15px;
+    color: #ffffff;
+    margin: 10px 0;
+}
