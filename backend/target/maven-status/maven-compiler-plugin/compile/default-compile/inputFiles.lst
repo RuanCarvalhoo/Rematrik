@@ -1,0 +1,12 @@
+C:\IFprojeto\rematrik_backend\src\main\java\com\rematrik\rematrik_backend\controller\DisciplinaController.java
+C:\IFprojeto\rematrik_backend\src\main\java\com\rematrik\rematrik_backend\controller\VerificationController.java
+C:\IFprojeto\rematrik_backend\src\main\java\com\rematrik\rematrik_backend\model\Aluno.java
+C:\IFprojeto\rematrik_backend\src\main\java\com\rematrik\rematrik_backend\model\ComponenteCurricular.java
+C:\IFprojeto\rematrik_backend\src\main\java\com\rematrik\rematrik_backend\model\Curso.java
+C:\IFprojeto\rematrik_backend\src\main\java\com\rematrik\rematrik_backend\RematrikApplication.java
+C:\IFprojeto\rematrik_backend\src\main\java\com\rematrik\rematrik_backend\repository\AlunoRepository.java
+C:\IFprojeto\rematrik_backend\src\main\java\com\rematrik\rematrik_backend\repository\ComponenteCurricularRepository.java
+C:\IFprojeto\rematrik_backend\src\main\java\com\rematrik\rematrik_backend\repository\CursoRepository.java
+C:\IFprojeto\rematrik_backend\src\main\java\com\rematrik\rematrik_backend\service\DisciplinaService.java
+C:\IFprojeto\rematrik_backend\src\main\java\com\rematrik\rematrik_backend\service\EmailService.java
+C:\IFprojeto\rematrik_backend\src\main\java\com\rematrik\rematrik_backend\service\VerificationCodeService.java
