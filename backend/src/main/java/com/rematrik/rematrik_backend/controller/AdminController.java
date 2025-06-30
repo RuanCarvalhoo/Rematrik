@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map; // <-- ESTA LINHA FOI ADICIONADA
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -26,6 +26,22 @@ public class AdminController {
     public ResponseEntity<Aluno> getRequisicaoPorId(@PathVariable Long id) {
         return alunoRepository.findById(id)
                 .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // NOVO ENDPOINT PARA ATUALIZAR A REQUISIÇÃO
+    @PutMapping("/requisicao/{id}")
+    public ResponseEntity<Aluno> updateRequisicao(@PathVariable Long id, @RequestBody Aluno alunoDetails) {
+        return alunoRepository.findById(id)
+                .map(aluno -> {
+                    aluno.setNome(alunoDetails.getNome());
+                    aluno.setMatricula(alunoDetails.getMatricula());
+                    aluno.setAnoSemestre(alunoDetails.getAnoSemestre());
+                    aluno.setEmail(alunoDetails.getEmail());
+                    // Adicione outros campos que possam ser editados
+                    Aluno updatedAluno = alunoRepository.save(aluno);
+                    return ResponseEntity.ok(updatedAluno);
+                })
                 .orElse(ResponseEntity.notFound().build());
     }
 

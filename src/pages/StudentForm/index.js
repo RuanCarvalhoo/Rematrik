@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // 1. Importar o useNavigate
 import Layout from '../../components/Layout';
 import Step1 from './components/Step1';
 import Step2 from './components/Step2';
-import axios from 'axios'; // Importe o axios
-
-// Remova o objeto COURSES, pois vamos buscar os dados da API
-// const COURSES = { ... };
+import axios from 'axios';
 
 function StudentForm() {
+  const navigate = useNavigate(); // 2. Inicializar o hook
   const [step, setStep] = useState(1);
-  const [courses, setCourses] = useState([]); // Estado para armazenar os cursos da API
-  const [disciplines, setDisciplines] = useState([]); // Estado para as disciplinas
-  const [formData, setFormData] = useState({
-    courseId: '', // Vamos usar o ID do curso
+  const [courses, setCourses] = useState([]);
+  const [disciplines, setDisciplines] = useState([]);
+  
+  // 3. Mover o estado inicial para uma função para reutilização
+  const getInitialFormData = () => ({
+    courseId: '',
     matricula: '',
     ano: '',
     nome: '',
@@ -21,13 +22,13 @@ function StudentForm() {
     disciplinas: [],
   });
 
+  const [formData, setFormData] = useState(getInitialFormData());
   const [yearOptions, setYearOptions] = useState([]);
   const [verificationCode, setVerificationCode] = useState('');
   const [isSendingCode, setIsSendingCode] = useState(false);
-  const [isVerifying, setIsVerifying] = useState(false); // Estado para o botão de continuar
+  const [isVerifying, setIsVerifying] = useState(false);
   const [error, setError] = useState('');
 
-  // Efeito para buscar os cursos da API quando o componente carregar
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -41,7 +42,6 @@ function StudentForm() {
     fetchCourses();
   }, []);
 
-  // Efeito para definir as opções de ano/semestre baseado no curso selecionado
   useEffect(() => {
     if (!formData.courseId) {
       setYearOptions([]);
@@ -49,7 +49,6 @@ function StudentForm() {
     }
     const selectedCourse = courses.find(c => c.id.toString() === formData.courseId);
     if (selectedCourse) {
-      // Assumindo que o nome do curso indica o tipo (ex: "INTEGRADO" vs "SUBSEQUENTE")
       if (selectedCourse.nomeCurso.includes('INTEGRADO')) {
         setYearOptions([
           { value: '1', label: '1º Ano' },
@@ -68,7 +67,6 @@ function StudentForm() {
     setFormData(prev => ({ ...prev, ano: '' }));
   }, [formData.courseId, courses]);
 
-  // Função para enviar o código de verificação
   const handleSendCode = async () => {
     setError('');
     if (!formData.email.trim() || !formData.email.endsWith('@discente.ifpe.edu.br')) {
@@ -87,23 +85,20 @@ function StudentForm() {
     }
   };
 
-  // Função para verificar o código e buscar as disciplinas
   const handleProceed = async () => {
     setError('');
-    if (Object.values(formData).some(val => val === '' && typeof val === 'string') || !verificationCode) {
+    if (Object.values(formData).slice(0, 6).some(val => val === '') || !verificationCode) {
         setError('Todos os campos, incluindo o código, são obrigatórios.');
         return;
     }
 
     setIsVerifying(true);
     try {
-      // 1. Verifica o código
       await axios.post('http://localhost:8080/api/verify-code', {
         email: formData.email,
         code: verificationCode
       });
       
-      // 2. Se o código for válido, busca as disciplinas
       const response = await axios.get('http://localhost:8080/api/disciplinas', {
         params: {
           cursoId: formData.courseId,
@@ -111,7 +106,7 @@ function StudentForm() {
         }
       });
       setDisciplines(response.data);
-      setStep(2); // Avança para a próxima etapa
+      setStep(2);
 
     } catch (err) {
       setError(err.response?.data || 'Código de verificação inválido ou erro ao buscar disciplinas.');
@@ -132,7 +127,6 @@ function StudentForm() {
   };
 
   const handleCpfChange = (e) => {
-    // A formatação do CPF continua igual
     const onlyNumbers = e.target.value.replace(/\D/g, '').slice(0, 11);
     let formattedCpf = onlyNumbers;
     if (onlyNumbers.length > 9) formattedCpf = `${onlyNumbers.slice(0, 3)}.${onlyNumbers.slice(3, 6)}.${onlyNumbers.slice(6, 9)}-${onlyNumbers.slice(9)}`;
@@ -141,7 +135,6 @@ function StudentForm() {
     setFormData(prevData => ({ ...prevData, cpf: formattedCpf }));
   };
 
-  // Função para enviar o formulário completo
   const submitForm = async () => {
     if (formData.disciplinas.length === 0) {
         setError('Você deve selecionar pelo menos uma disciplina.');
@@ -162,8 +155,17 @@ function StudentForm() {
     try {
         await axios.post('http://localhost:8080/api/rematricula', payload);
         alert('Rematrícula enviada com sucesso!');
-        // Idealmente, redirecionar para uma página de sucesso
-        // navigate('/rematricula/sucesso'); 
+        
+        // 4. LÓGICA DE CORREÇÃO ADICIONADA AQUI
+        // Limpa os dados do formulário
+        setFormData(getInitialFormData());
+        // Limpa o código de verificação
+        setVerificationCode('');
+        // Retorna para a primeira etapa
+        setStep(1);
+        // Navega para a página inicial
+        navigate('/');
+
     } catch(err) {
         alert('Ocorreu um erro ao enviar sua rematrícula.');
         console.error("Erro ao submeter rematrícula:", err);
@@ -176,7 +178,7 @@ function StudentForm() {
         <Step1
           formData={formData}
           setFormData={setFormData}
-          courses={courses} // Passa a lista de cursos da API
+          courses={courses}
           yearOptions={yearOptions}
           handleSendCode={handleSendCode}
           handleProceed={handleProceed}
@@ -191,7 +193,7 @@ function StudentForm() {
       {step === 2 && (
         <Step2
           formData={formData}
-          disciplines={disciplines} // Passa as disciplinas da API
+          disciplines={disciplines}
           submitForm={submitForm}
           handleDisciplineChange={handleDisciplineChange}
           error={error}
