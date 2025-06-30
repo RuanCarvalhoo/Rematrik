@@ -1,7 +1,7 @@
 CREATE TABLE cursos (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     nome_curso VARCHAR(255) NOT NULL,
-    codigo_curso VARCHAR(20) NOT NULL UNIQUE
+    codigo_curso VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE componentes_curriculares (
@@ -16,8 +16,8 @@ CREATE TABLE componentes_curriculares (
 CREATE TABLE alunos (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
-    matricula VARCHAR(50) NOT NULL UNIQUE,
+    matricula VARCHAR(50) NOT NULL,
     ano_semestre VARCHAR(20),
-    email VARCHAR(255) NOT NULL UNIQUE,
-    cpf VARCHAR(14) NOT NULL UNIQUE
+    email VARCHAR(255) NOT NULL,
+    cpf VARCHAR(14) NOT NULL
 );
