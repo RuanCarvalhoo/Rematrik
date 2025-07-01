@@ -12,7 +12,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import static org.springframework.security.config.Customizer.withDefaults; // Importe o withDefaults
+import static org.springframework.security.config.Customizer.withDefaults; 
 
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -48,9 +48,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/admin/**").authenticated()
                 .anyRequest().denyAll()
             )
-            .httpBasic(withDefaults()); // <-- MUDANÇA AQUI (httpBasic() para httpBasic(withDefaults()))
+            .httpBasic(withDefaults());
 
-        // A nova forma de configurar o frameOptions, sem depreciação.
         http.headers(headers -> headers
             .frameOptions(frameOptions -> frameOptions.sameOrigin())
         );

@@ -29,7 +29,6 @@ public class AdminController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // NOVO ENDPOINT PARA ATUALIZAR A REQUISIÇÃO
     @PutMapping("/requisicao/{id}")
     public ResponseEntity<Aluno> updateRequisicao(@PathVariable Long id, @RequestBody Aluno alunoDetails) {
         return alunoRepository.findById(id)
@@ -38,7 +37,6 @@ public class AdminController {
                     aluno.setMatricula(alunoDetails.getMatricula());
                     aluno.setAnoSemestre(alunoDetails.getAnoSemestre());
                     aluno.setEmail(alunoDetails.getEmail());
-                    // Adicione outros campos que possam ser editados
                     Aluno updatedAluno = alunoRepository.save(aluno);
                     return ResponseEntity.ok(updatedAluno);
                 })

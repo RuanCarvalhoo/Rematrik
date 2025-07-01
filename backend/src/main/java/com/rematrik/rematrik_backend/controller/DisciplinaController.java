@@ -16,14 +16,13 @@ public class DisciplinaController {
     @Autowired
     private DisciplinaService disciplinaService;
 
-    // Endpoint para o frontend buscar a lista de todos os cursos
+
     @GetMapping("/cursos")
     public List<Curso> getCursos() {
         return disciplinaService.getTodosOsCursos();
     }
 
-    // Endpoint para buscar as disciplinas
-    // Exemplo de como chamar: /api/disciplinas?cursoId=1&periodo=3
+
     @GetMapping("/disciplinas")
     public List<ComponenteCurricular> getDisciplinas(
             @RequestParam Long cursoId,
