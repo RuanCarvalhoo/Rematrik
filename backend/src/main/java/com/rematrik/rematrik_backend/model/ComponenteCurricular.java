@@ -1,6 +1,5 @@
 package com.rematrik.rematrik_backend.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,10 +14,8 @@ public class ComponenteCurricular {
 
     @ManyToOne
     @JoinColumn(name = "curso_id")
-    @JsonBackReference
-    private Curso curso;
 
-    // Getters e Setters
+    private Curso curso;
 
      public Long getId() {
         return id;

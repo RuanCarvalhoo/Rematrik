@@ -2,13 +2,13 @@ import React from 'react';
 
 const Step1 = ({
   formData,
-  setFormData,
-  courses, // Recebe a lista de cursos
+  handleChange, // Recebe a nova função
+  courses, 
   yearOptions,
   handleSendCode,
   handleProceed,
   isSendingCode,
-  isVerifying, // Novo estado para o botão "Continuar"
+  isVerifying, 
   verificationCode,
   setVerificationCode,
   error,
@@ -22,36 +22,38 @@ const Step1 = ({
         placeholder="Nome completo"
         name="nome"
         value={formData.nome}
-        onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
+        onChange={handleChange} // Usa a nova função
+        maxLength="60"
       />
       
       <div className="input-group">
-        {/* Agora usa o ID do curso */}
+    
         <select
           name="courseId"
           value={formData.courseId}
-          onChange={(e) => setFormData({ ...formData, courseId: e.target.value })}
+          onChange={handleChange} // Usa a nova função
           className="course-select"
         >
           <option value="">Curso</option>
-          {/* Mapeia os cursos vindos da API */}
+        
           {courses.map(course => (
-            <option key={course.id} value={course.id}>{course.codigoCurso}</option>
+            <option key={course.id} value={course.id}>{course.nomeCurso}</option>
           ))}
         </select>
         
         <input
           type="text"
-          placeholder="Nº da Matrícula"
+          placeholder="Matrícula"
           name="matricula"
           value={formData.matricula}
-          onChange={(e) => setFormData({ ...formData, matricula: e.target.value })}
+          onChange={handleChange} // Usa a nova função
+          maxLength="20"
         />
 
         <select
           name="ano"
           value={formData.ano}
-          onChange={(e) => setFormData({ ...formData, ano: e.target.value })}
+          onChange={handleChange} // Usa a nova função
           className="year-select"
           disabled={!formData.courseId}
         >
@@ -67,7 +69,7 @@ const Step1 = ({
         placeholder="E-mail"
         name="email"
         value={formData.email}
-        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+        onChange={handleChange} // Usa a nova função
       />
       <input
         type="text"

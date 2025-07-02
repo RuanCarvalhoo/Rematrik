@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // 1. Importar o useNavigate
+import { useNavigate } from 'react-router-dom';
 import Layout from '../../components/Layout';
 import Step1 from './components/Step1';
 import Step2 from './components/Step2';
 import axios from 'axios';
 
 function StudentForm() {
-  const navigate = useNavigate(); // 2. Inicializar o hook
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [courses, setCourses] = useState([]);
   const [disciplines, setDisciplines] = useState([]);
-  
-  // 3. Mover o estado inicial para uma função para reutilização
+
   const getInitialFormData = () => ({
     courseId: '',
     matricula: '',
@@ -67,6 +66,23 @@ function StudentForm() {
     setFormData(prev => ({ ...prev, ano: '' }));
   }, [formData.courseId, courses]);
 
+  // Função de handleChange com os filtros aplicados
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    let filteredValue = value;
+
+    if (name === 'nome') {
+      // Permite apenas letras (incluindo acentuadas) e espaços, limitado a 60 caracteres
+      filteredValue = value.replace(/[^a-zA-ZÀ-ÖØ-öø-ÿ\s]/g, '').slice(0, 60);
+    } else if (name === 'matricula') {
+      // Permite apenas letras e números, limitado a 20 caracteres
+      filteredValue = value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 20);
+    }
+
+    setFormData({ ...formData, [name]: filteredValue });
+  };
+
+
   const handleSendCode = async () => {
     setError('');
     if (!formData.email.trim() || !formData.email.endsWith('@discente.ifpe.edu.br')) {
@@ -87,9 +103,20 @@ function StudentForm() {
 
   const handleProceed = async () => {
     setError('');
-    if (Object.values(formData).slice(0, 6).some(val => val === '') || !verificationCode) {
-        setError('Todos os campos, incluindo o código, são obrigatórios.');
+    
+    if (Object.values(formData).slice(0, 6).some(val => val === '')) {
+        setError('Todos os campos são obrigatórios.');
         return;
+    }
+
+    if (formData.nome.trim().indexOf(' ') === -1) {
+      setError('Por favor, insira o nome e sobrenome.');
+      return;
+    }
+
+    if (!verificationCode) {
+      setError('O código de verificação é obrigatório.');
+      return;
     }
 
     setIsVerifying(true);
@@ -156,14 +183,9 @@ function StudentForm() {
         await axios.post('http://localhost:8080/api/rematricula', payload);
         alert('Rematrícula enviada com sucesso!');
         
-        // 4. LÓGICA DE CORREÇÃO ADICIONADA AQUI
-        // Limpa os dados do formulário
         setFormData(getInitialFormData());
-        // Limpa o código de verificação
         setVerificationCode('');
-        // Retorna para a primeira etapa
         setStep(1);
-        // Navega para a página inicial
         navigate('/');
 
     } catch(err) {
@@ -177,7 +199,7 @@ function StudentForm() {
       {step === 1 && (
         <Step1
           formData={formData}
-          setFormData={setFormData}
+          handleChange={handleChange}
           courses={courses}
           yearOptions={yearOptions}
           handleSendCode={handleSendCode}

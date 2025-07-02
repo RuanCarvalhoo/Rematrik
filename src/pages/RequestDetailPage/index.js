@@ -11,7 +11,6 @@ function RequestDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Estados para o modo de edição
   const [isEditing, setIsEditing] = useState(false);
   const [editedData, setEditedData] = useState({});
 
@@ -30,7 +29,6 @@ function RequestDetailPage() {
             headers: { 'Authorization': `Basic ${authToken}` }
         });
         setRequest(response.data);
-        // Inicializa os dados de edição com os dados da requisição
         setEditedData(response.data); 
       } catch (err) {
         setError('Falha ao carregar a requisição.');
@@ -51,7 +49,6 @@ function RequestDetailPage() {
         { headers: { 'Authorization': `Basic ${authToken}` } }
       );
       alert(`Status alterado para: ${newStatus}`);
-      // Se o status for alterado, volte para o dashboard para ver a requisição na lista correta.
       navigate('/admin/dashboard');
     } catch (err) {
       alert('Erro ao alterar o status.');
@@ -59,14 +56,13 @@ function RequestDetailPage() {
     }
   };
 
-  // Funções para o modo de edição
   const handleEdit = () => {
     setIsEditing(true);
   };
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    setEditedData(request); // Restaura os dados originais
+    setEditedData(request);
   };
 
   const handleSaveEdit = async () => {
@@ -77,7 +73,7 @@ function RequestDetailPage() {
         });
         alert('Dados atualizados com sucesso!');
         setIsEditing(false);
-        setRequest(editedData); // Atualiza a visualização com os novos dados
+        setRequest(editedData);
     } catch (err) {
         alert('Erro ao salvar as alterações.');
         console.error(err);
@@ -89,12 +85,9 @@ function RequestDetailPage() {
     setEditedData(prev => ({ ...prev, [name]: value }));
   };
 
-
-  if (isLoading) return <p>Carregando...</p>;
-  if (error) return <p className="error-message">{error}</p>;
-  if (!request) return <p>Requisição não encontrada.</p>;
-
+  // Esta função agora verifica se 'request' existe antes de tentar acessá-lo.
   const getTitle = () => {
+    if (!request) return { main: 'CARREGANDO', sub: 'REQUISIÇÃO' }; // Valor padrão durante o carregamento
     switch (request.status) {
       case 'pendente': return { main: 'REQUISIÇÕES', sub: 'PENDENTES' };
       case 'analise': return { main: 'REQUISIÇÕES', sub: 'PARA ANÁLISE' };
@@ -102,6 +95,11 @@ function RequestDetailPage() {
       default: return { main: 'DETALHE', sub: 'DA REQUISIÇÃO' };
     }
   };
+
+  if (isLoading) return <p>Carregando...</p>;
+  if (error) return <p className="error-message">{error}</p>;
+  if (!request) return <p>Requisição não encontrada.</p>;
+
   const pageTitle = getTitle();
 
   return (

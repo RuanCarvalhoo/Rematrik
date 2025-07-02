@@ -1,17 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react'; // Importar o useState
 
 // Recebe as disciplinas da API
 const Step2 = ({ formData, disciplines, submitForm, handleDisciplineChange, error }) => {
 
-  // Remova o useState e useEffect que buscava dados mockados
+  // Novo estado para o termo de pesquisa
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Filtra as disciplinas com base no termo de pesquisa
+  const filteredDisciplines = disciplines.filter(disciplina =>
+    disciplina.nomeComponente.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="form-wrapper">
       <h1>FORMULÁRIO<p>DE REMATRÍCULA</p></h1>
       <h2 className="year-subtitle">{new Date().getFullYear()}</h2>
+
+      {/* Barra de pesquisa adicionada */}
+      <input
+        type="search"
+        className="search-bar"
+        placeholder="Pesquisar por disciplina..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+
       <div className="disciplinas-list">
-        {disciplines.map((disciplina) => (
-          // Usa os dados da API (id, nomeComponente)
+        {/* Mapeia a lista de disciplinas filtradas */}
+        {filteredDisciplines.map((disciplina) => (
           <label key={disciplina.id} htmlFor={disciplina.id} className="disciplina-item">
             <span>{disciplina.nomeComponente}</span>
             <input

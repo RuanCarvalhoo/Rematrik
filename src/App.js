@@ -2,12 +2,14 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 // Importa os componentes
-import ProtectedRoute from './components/ProtectedRoute'; // 1. Importe o componente de proteção
+import ProtectedRoute from './components/ProtectedRoute';
 import ProfileSelection from './pages/ProfileSelection';
 import StudentForm from './pages/StudentForm';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
-import RequestListPage from './pages/RequestListPage';
+import PendingRequests from './pages/PendingRequests'; // Importado
+import AnalysisRequests from './pages/AnalysisRequests'; // Importado
+import CompletedRequests from './pages/CompletedRequests'; // Importado
 import RequestDetailPage from './pages/RequestDetailPage';
 
 import './assets/styles/global.css';
@@ -24,9 +26,10 @@ function App() {
 
         {/* Rotas Protegidas do Admin */}
         <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
-        <Route path="/admin/requisicoes-pendentes" element={<ProtectedRoute><RequestListPage title="REQUISIÇÕES PENDENTES" status="pendente" /></ProtectedRoute>} />
-        <Route path="/admin/requisicoes-analise" element={<ProtectedRoute><RequestListPage title="REQUISIÇÕES PARA ANÁLISE" status="analise" /></ProtectedRoute>} />
-        <Route path="/admin/requisicoes-concluidas" element={<ProtectedRoute><RequestListPage title="REQUISIÇÕES CONCLUÍDAS" status="concluida" /></ProtectedRoute>} />
+      
+        <Route path="/admin/requisicoes-pendentes" element={<ProtectedRoute><PendingRequests /></ProtectedRoute>} />
+        <Route path="/admin/requisicoes-analise" element={<ProtectedRoute><AnalysisRequests /></ProtectedRoute>} />
+        <Route path="/admin/requisicoes-concluidas" element={<ProtectedRoute><CompletedRequests /></ProtectedRoute>} />
         <Route path="/admin/requisicao/:requestId" element={<ProtectedRoute><RequestDetailPage /></ProtectedRoute>} />
         
       </Routes>
